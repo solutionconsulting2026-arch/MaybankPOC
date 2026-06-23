@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maybank POC — Document Library</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow: #FFCC00;
+      --yellow-dark: #E6B800;
+      --black: #1A1A1A;
+      --dark-grey: #2C2C2C;
+      --mid-grey: #555;
+      --light-grey: #F5F5F5;
+      --white: #FFFFFF;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --card-hover-shadow: 0 8px 28px rgba(0,0,0,0.16);
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--light-grey);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--black);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-tiger {
+      width: 44px;
+      height: 44px;
+      background: var(--yellow);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--yellow);
+      line-height: 1;
+    }
+
+    .logo-text .sub {
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .header-badge {
+      background: var(--yellow);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO BAND ── */
+    .hero {
+      background: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-dark) 100%);
+      padding: 52px 40px 44px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--black);
+      line-height: 1.2;
+      max-width: 680px;
+    }
+
+    .hero p {
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--dark-grey);
+      max-width: 560px;
+    }
+
+    .hero-meta {
+      margin-top: 20px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      background: rgba(0,0,0,0.12);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--black);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-chip svg { width: 13px; height: 13px; }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    /* ── DAY SECTION ── */
+    .day-section { margin-bottom: 48px; }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .day-pill {
+      background: var(--yellow);
+      color: var(--black);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+    }
+
+    .day-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .day-divider {
+      flex: 1;
+      height: 1px;
+      background: #ddd;
+    }
+
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e8e8e8;
+    }
+
+    .card:hover {
+      box-shadow: var(--card-hover-shadow);
+      transform: translateY(-3px);
+    }
+
+    .card-top {
+      background: var(--black);
+      padding: 18px 20px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .pdf-icon {
+      background: var(--yellow);
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdf-icon svg { width: 22px; height: 22px; }
+
+    .card-top-text { flex: 1; min-width: 0; }
+
+    .card-type {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--yellow);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .card-body {
+      padding: 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--mid-grey);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+
+    .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--black);
+      flex: 1;
+      justify-content: center;
+    }
+
+    .btn-primary:hover { background: var(--yellow-dark); }
+
+    .btn-secondary {
+      background: var(--light-grey);
+      color: var(--black);
+      border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover { background: #e8e8e8; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      color: #888;
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+    }
+
+    footer strong { color: var(--yellow); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header { padding: 0 20px; }
+      .hero { padding: 36px 20px 32px; }
+      .hero h1 { font-size: 24px; }
+      main { padding: 28px 16px 48px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo-area">
+    <div class="logo-tiger">M</div>
+    <div class="logo-text">
+      <span class="brand">Maybank</span>
+      <span class="sub">BUSINESSNEXT POC</span>
+    </div>
+  </div>
+  <span class="header-badge">Document Library</span>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <h1>POC Document Library</h1>
+  <p>All reference materials, presentations, and hands-on guides from the Maybank &amp; BUSINESSNEXT Proof of Concept engagement — June 2026.</p>
+  <div class="hero-meta">
+    <span class="meta-chip">
+      <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 8h6M5 5.5h6M5 10.5h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      10 Documents
+    </span>
+    <span class="meta-chip">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3.5l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      4-Day POC Programme
+    </span>
+    <span class="meta-chip">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 2l1.8 3.6 4 .6-2.9 2.8.7 4L8 11l-3.6 1.9.7-4L2.2 6.2l4-.6L8 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      GCFS &amp; GGB Tracks
+    </span>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<main>
+
+  <!-- DAY 1 -->
+  <section class="day-section">
+    <div class="day-header">
+      <span class="day-pill">Day 1</span>
+      <span class="day-title">GCFS — Group Community Financial Services</span>
+      <div class="day-divider"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Presentation</div>
+            <div class="card-title">BUSINESSNEXT Presentation for Maybank</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Main Day 1 opening presentation introducing BUSINESSNEXT platform capabilities to the Maybank GCFS team.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%201%20GCFS%20-%20BUSINESSNEXT%20Presentation%20for%20Maybank%2018-06-2026.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%201%20GCFS%20-%20BUSINESSNEXT%20Presentation%20for%20Maybank%2018-06-2026.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Hands-on Guide</div>
+            <div class="card-title">Content Strategist — Hands-on Document</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Step-by-step hands-on guide for the Content Strategist persona, covering AI-assisted content workflows in BUSINESSNEXT.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%201%20GCFS%20Hands-on%20Document%20Content%20Strategist.pptx.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%201%20GCFS%20Hands-on%20Document%20Content%20Strategist.pptx.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Hands-on Guide</div>
+            <div class="card-title">Customer Support Agent — Hands-on Document</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Practical guide for the Customer Support Agent persona, demonstrating AI-powered support ticket handling and resolution flows.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%201%20GCFS%20Hands-on%20Document%20Customer%20Support%20Agent.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%201%20GCFS%20Hands-on%20Document%20Customer%20Support%20Agent.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Hands-on Guide</div>
+            <div class="card-title">SME RM — Hands-on Document</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Hands-on guide for the SME Relationship Manager persona, covering SME client management and AI-assisted relationship workflows.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%201%20GCFS%20Hands-on%20Document%20SME%20RM.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%201%20GCFS%20Hands-on%20Document%20SME%20RM.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Hands-on Guide</div>
+            <div class="card-title">Wealth RM — Hands-on Document</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Hands-on guide for the Wealth Relationship Manager persona, showcasing AI-driven wealth advisory and portfolio management scenarios.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%201%20GCFS%20Hands-on%20Document%20Wealth%20RM.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%201%20GCFS%20Hands-on%20Document%20Wealth%20RM.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DAY 2 -->
+  <section class="day-section">
+    <div class="day-header">
+      <span class="day-pill">Day 2</span>
+      <span class="day-title">Project Governance &amp; Implementation Methodology</span>
+      <div class="day-divider"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Methodology</div>
+            <div class="card-title">Project Gov &amp; Impl Methodology — Part 1</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Part 1 covering project governance framework, implementation approach, and programme structure for the Maybank deployment.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%202%20Maybank_Project%20Gov%20%26%20Impl%20Methodology%20Part%201.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%202%20Maybank_Project%20Gov%20%26%20Impl%20Methodology%20Part%201.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Methodology</div>
+            <div class="card-title">Project Gov &amp; Impl Methodology — Part 2</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Part 2 detailing execution methodology, milestone planning, risk management, and delivery governance for the Maybank project.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%202%20Maybank_Project%20Gov%20%26%20Impl%20Methodology3%20-%20Part%202.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%202%20Maybank_Project%20Gov%20%26%20Impl%20Methodology3%20-%20Part%202.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DAY 3 -->
+  <section class="day-section">
+    <div class="day-header">
+      <span class="day-pill">Day 3</span>
+      <span class="day-title">GGB — Group Global Banking</span>
+      <div class="day-divider"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Hands-on Demo</div>
+            <div class="card-title">GGB Hands-on Demo Document</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Hands-on demo guide for the Group Global Banking track, covering corporate banking AI use cases and live demonstration scenarios.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%203%20GGB%20Hands-on%20Demo%20Document.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%203%20GGB%20Hands-on%20Demo%20Document.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Presentation</div>
+            <div class="card-title">Maybank GGB Presentation</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Main GGB presentation deck covering Group Global Banking AI transformation roadmap, platform architecture, and use case highlights.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%203%20Maybank%20GGB%20Presentation.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%203%20Maybank%20GGB%20Presentation.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DAY 4 -->
+  <section class="day-section">
+    <div class="day-header">
+      <span class="day-pill">Day 4</span>
+      <span class="day-title">Technical Deep Dive</span>
+      <div class="day-divider"></div>
+    </div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-top">
+          <div class="pdf-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="#1A1A1A" stroke-width="1.8"/><path d="M14 2v6h6" stroke="#1A1A1A" stroke-width="1.8"/><path d="M9 13h6M9 17h4" stroke="#1A1A1A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="card-top-text">
+            <div class="card-type">Technical</div>
+            <div class="card-title">Technical Presentation</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">In-depth technical presentation covering platform architecture, integration patterns, API specifications, and infrastructure requirements for Maybank.</p>
+          <div class="card-actions">
+            <a class="btn btn-primary" href="https://github.com/solutionconsulting2026-arch/maybankpoc/raw/main/Day%204%20Technical%20Presentation.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2"/></svg>
+              Download PDF
+            </a>
+            <a class="btn btn-secondary" href="https://solutionconsulting2026-arch.github.io/MaybankPOC/Day%204%20Technical%20Presentation.pdf" target="_blank">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              View
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2026 <strong>Maybank</strong> &amp; <strong>BUSINESSNEXT</strong> &nbsp;·&nbsp; POC Document Library &nbsp;·&nbsp; All documents are confidential and intended for internal use only.</p>
+</footer>
+
+</body>
+</html>
